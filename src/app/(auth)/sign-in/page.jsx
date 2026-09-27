@@ -1,14 +1,25 @@
 'use client';
 
-import {Button, Description, FieldError, Form, Input, Label, TextField} from "@heroui/react";
+import { signIn } from "@/lib/auth-client";
+import {Eye, EyeSlash} from "@gravity-ui/icons";
+import {Button, Description, FieldError, Form, Input, InputGroup, Label, TextField} from "@heroui/react";
+import { useState } from "react";
 
 const SignInPage = () => {
-    const onSubmit = (e) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data= Object.fromEntries(formData.entries());
     console.log('from er data', data);
-    
+
+    const {data: resData, error} = await signIn.email({
+        email: data.email,
+        password: data.password,
+        rememberMe: true,
+        callbackURL: '/'
+    })
+    console.log('after submit', resData, error);
   };
 
     return (
@@ -34,6 +45,26 @@ const SignInPage = () => {
         <Input placeholder="john@example.com" />
         <FieldError />
       </TextField>
+      <TextField className="w-full max-w-[280px]" name="password">
+      <Label>Password</Label>
+      <InputGroup>
+        <InputGroup.Input
+          className="w-full max-w-[280px]"
+          type={isVisible ? "text" : "password"}
+        />
+        <InputGroup.Suffix className="pe-0">
+          <Button
+            isIconOnly
+            aria-label={isVisible ? "Hide password" : "Show password"}
+            size="sm"
+            variant="ghost"
+            onPress={() => setIsVisible(!isVisible)}
+          >
+            {isVisible ? <Eye className="size-4" /> : <EyeSlash className="size-4" />}
+          </Button>
+        </InputGroup.Suffix>
+      </InputGroup>
+    </TextField>
       <TextField
         isRequired
         minLength={8}
