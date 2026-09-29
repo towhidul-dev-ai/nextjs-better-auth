@@ -26,9 +26,14 @@ export default function Navbar() {
                 Dashboard
             </Link>
         </li>
-       {session?.user && <li>
+       {session?.user && <>
+       <li>
             <Link href="/profile">Profile</Link>
-        </li>}
+        </li>
+       <li>
+            <Link href="/settings">Settings</Link>
+        </li>
+       </>}
     </>
 
     const authLinks = <>
