@@ -78,7 +78,7 @@ export default function Navbar() {
                         </svg>
                     </button>
                     <div className="flex items-center gap-3">
-                        <p className="font-bold">ACME</p>
+                        <Link href="/" className="font-bold">ACME</Link>
                     </div>
                 </div>
                 <ul className="hidden items-center gap-4 md:flex">
